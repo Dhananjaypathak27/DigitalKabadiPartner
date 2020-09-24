@@ -6,9 +6,20 @@
     tools:context=".ScrapePriceFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <WebView
-        android:id="@+id/scrapePriceWebView"
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/scrapePriceSwipeRefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+
+
+        <WebView
+            android:id="@+id/scrapePriceWebView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
 
 </FrameLayout>

@@ -7,10 +7,12 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -23,6 +25,8 @@ import android.webkit.WebViewClient;
 public class HomeFragment extends Fragment {
 
     WebView webView;
+    SwipeRefreshLayout swipeRefreshLayout;
+    private ViewTreeObserver.OnScrollChangedListener mOnScrollChangedListener;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -73,12 +77,25 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        swipeRefreshLayout = view.findViewById(R.id.homeSwipeRefresh);
         webView = view.findViewById(R.id.homeWebView);
+        scrapWebViewRefreshing();
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                scrapWebViewRefreshing();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+    }
+    private void scrapWebViewRefreshing(){
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webView.loadUrl("https://digitalkabadi.in/pickupboy/");
         webView.setWebViewClient(new myWebclient());
     }
+
     public class myWebclient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView wv, String url) {

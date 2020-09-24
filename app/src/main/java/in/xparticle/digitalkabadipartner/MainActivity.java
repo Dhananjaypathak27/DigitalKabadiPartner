@@ -15,31 +15,23 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
+
     ImageView profilePhoto;
-    SwipeRefreshLayout swipeRefreshLayout;
     BottomNavigationView bottomNav;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+
         bottomNav = findViewById(R.id.bottomNavigation);
         profilePhoto = findViewById(R.id.profile);
-//        bottomNav.setOnNavigationItemSelectedListener(navListener);
+
         intent_function();
 
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new HomeFragment()).commit();
-
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                intent_function();
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        });
 
         profilePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void intent_function(){
 
-        Toast.makeText(MainActivity.this,"refresh Successful",Toast.LENGTH_SHORT).show();
+//        Toast.makeText(MainActivity.this,"refresh Successful",Toast.LENGTH_SHORT).show();
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

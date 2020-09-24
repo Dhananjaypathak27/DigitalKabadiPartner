@@ -7,13 +7,16 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +26,8 @@ import android.webkit.WebViewClient;
 public class ProfileFragment extends Fragment {
 
     WebView webView;
+    private ViewTreeObserver.OnScrollChangedListener mOnScrollChangedListener;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -75,12 +80,27 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        swipeRefreshLayout = view.findViewById(R.id.profileSwipeRefresh);
         webView = view.findViewById(R.id.profileWebView);
+        profileWebViewRefreshing();
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                profileWebViewRefreshing();
+
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+    }
+    private void profileWebViewRefreshing(){
+
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webView.loadUrl("https://digitalkabadi.in/pickupboy/profile.php");
         webView.setWebViewClient(new ProfileFragment.myWebclient());
     }
+
+
     public class myWebclient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView wv, String url) {

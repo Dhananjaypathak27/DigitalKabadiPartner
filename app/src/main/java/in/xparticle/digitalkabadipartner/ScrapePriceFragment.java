@@ -7,21 +7,28 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
+
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ScrapePriceFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ScrapePriceFragment extends Fragment {
+public class ScrapePriceFragment extends Fragment  {
 
+    private ViewTreeObserver.OnScrollChangedListener mOnScrollChangedListener;
+    SwipeRefreshLayout swipeRefreshLayout;
     WebView webView;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -57,6 +64,7 @@ public class ScrapePriceFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -73,12 +81,55 @@ public class ScrapePriceFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        swipeRefreshLayout = view.findViewById(R.id.scrapePriceSwipeRefresh);
         webView = view.findViewById(R.id.scrapePriceWebView);
+        scrapWebViewRefreshing();
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                scrapWebViewRefreshing();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+    }
+    private void scrapWebViewRefreshing(){
+
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webView.loadUrl("https://digitalkabadi.in/client/#scrapPrice");
         webView.setWebViewClient(new ScrapePriceFragment.myWebclient());
     }
+
+//
+//    @Override
+//    public boolean canSwipeRefreshChildScrollUp() {
+//        return webView.getScrollY() > 0;
+//    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        swipeRefreshLayout.getViewTreeObserver().addOnScrollChangedListener(mOnScrollChangedListener =
+                new ViewTreeObserver.OnScrollChangedListener() {
+                    @Override
+                    public void onScrollChanged() {
+                        if (webView.getScrollY() == 0)
+                            swipeRefreshLayout.setEnabled(true);
+                        else
+                            swipeRefreshLayout.setEnabled(false);
+
+                    }
+                });
+    }
+
+    @Override
+    public void onStop() {
+        swipeRefreshLayout.getViewTreeObserver().removeOnScrollChangedListener(mOnScrollChangedListener);
+        super.onStop();
+    }
+
     public class myWebclient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView wv, String url) {

@@ -12,8 +12,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical|start"
         android:layout_weight="70"
-        android:paddingEnd="100dp"
-        android:paddingStart="20dp"
+        android:paddingEnd="150dp"
+        android:paddingStart="0dp"
         android:src="@drawable/logo" />
 
     <ImageView
@@ -21,10 +21,10 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="30"
-        android:paddingVertical="5dp"
+        android:paddingVertical="7dp"
         android:layout_gravity="end"
-        android:paddingEnd="20dp"
-        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:paddingStart="30dp"
         android:src="@drawable/ic_baseline_person_pin_24" />
 
 
