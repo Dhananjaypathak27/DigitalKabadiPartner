@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -36,8 +39,12 @@ public class MainActivity extends AppCompatActivity {
         profilePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new ProfileFragment()).commit();
+                Intent intent = new Intent(MainActivity.this,ProfileActivity.class);
+                startActivity(intent);
+//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+//                        new ProfileFragment()).commit();
+//                bottomNav.setItemIconTintList(ColorStateList.valueOf(getColor(R.color.gray)));
+//                bottomNav.setItemTextColor(ColorStateList.valueOf(getColor(R.color.gray)));
             }
         });
     }
@@ -53,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()){
                     case R.id.nav_home:
                         selectedFragment =new HomeFragment();
+
                         break;
                     case R.id.nav_scrape_price:
                         selectedFragment = new ScrapePriceFragment();
@@ -67,29 +75,22 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    boolean doubleBackToExitPressedOnce= false;
+    @Override
+    public void onBackPressed() {
+        if(doubleBackToExitPressedOnce){
+            super.onBackPressed();
+            return;
+        }
+        this.doubleBackToExitPressedOnce =true;
+        Toast.makeText(this, "Press again to exit", Toast.LENGTH_SHORT).show();
 
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
 
-
-
-
-//    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
-//        new BottomNavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//                Fragment selectedFragment = null;
-//
-//                switch (item.getItemId()){
-//                    case R.id.nav_home:
-//                        selectedFragment =new HomeFragment();
-//                        break;
-//                    case R.id.nav_scrape_price:
-//                        selectedFragment = new ScrapePriceFragment();
-//                        break;
-//                }
-//                assert selectedFragment != null;
-//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-//                        selectedFragment).commit();
-//                return true;
-//            }
-//        };
+            }
+        },2000);
+    }
 }

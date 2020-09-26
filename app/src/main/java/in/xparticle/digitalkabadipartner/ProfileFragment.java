@@ -92,6 +92,7 @@ public class ProfileFragment extends Fragment {
             }
         });
     }
+
     private void profileWebViewRefreshing(){
 
         WebSettings webSettings = webView.getSettings();

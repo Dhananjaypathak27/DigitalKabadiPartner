@@ -3,10 +3,10 @@
 
     <item
         android:id="@+id/nav_home"
-        android:icon="@drawable/ic_baseline_home_24"
+        android:icon="@drawable/ic_home_solid"
         android:title="home"/>
     <item
         android:id="@+id/nav_scrape_price"
-        android:icon="@drawable/ic_rupee_symbol"
+        android:icon="@drawable/ic_rupee_sign_solid"
         android:title="Scrape Price"/>
 </menu>

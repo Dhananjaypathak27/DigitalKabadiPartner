@@ -97,7 +97,7 @@ public class ScrapePriceFragment extends Fragment  {
 
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-        webView.loadUrl("https://digitalkabadi.in/client/#scrapPrice");
+        webView.loadUrl("https://digitalkabadi.in/pickupboy/scrapprice.php");
         webView.setWebViewClient(new ScrapePriceFragment.myWebclient());
     }
 

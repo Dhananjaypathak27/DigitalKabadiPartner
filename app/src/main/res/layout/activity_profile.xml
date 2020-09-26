@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray"
-    tools:context=".MainActivity">
+    tools:context=".ProfileActivity">
+
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
+        android:id="@+id/appBarLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#fff"
@@ -16,39 +16,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-
-        <androidx.appcompat.widget.Toolbar
+        <Toolbar
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize">
 
-            <include layout="@layout/layout_toolbar" />
-
-        </androidx.appcompat.widget.Toolbar>
+            <include layout="@layout/layout_profile_toolbar" />
+        </Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 
-
-    <FrameLayout
-        android:id="@+id/fragment_container"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/profileSwipeRefresh1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
-
-
-
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?android:attr/windowBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_navigation" />
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout2">
+
+        <WebView
+            android:id="@+id/profileWebView1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
